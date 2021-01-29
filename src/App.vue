@@ -7,52 +7,52 @@
       @close="handleClose"
       @select="selectItem"
       background-color='#545C64'
+      router
       >
 
-      <el-menu-item index="0">
+      <el-menu-item index="home">
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-menu-item index="1">
+      <el-menu-item index="about">
         <i class="el-icon-menu"></i>
         <span slot="title">关于</span>
       </el-menu-item>
-      <el-menu-item index="2">
+      <el-menu-item index="d3">
         <i class="el-icon-document"></i>
         <span slot="title">导航三</span>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="d4">
         <i class="el-icon-setting"></i>
         <span slot="title">导航四</span>
       </el-menu-item>
     </el-menu>
+
     <div class='content'>
-      <Home v-show='showIndex ==0'></Home>
+      <router-view></router-view>
+      <!-- <Home v-show='showIndex ==0'></Home>
       <About v-show='showIndex == 1'></About>
       <D3 v-show='showIndex == 2'></D3>
-      <D4 v-show='showIndex == 4'></D4>
-      <Login v-show='showIndex == 3'></Login>
+      <D4 v-show='showIndex == 4'></D4> -->
     </div>
   </div>
 </template>
 <script>
-  import Home from './pages/Home'
-  import About from './pages/About'
-  import D3 from './pages/D3'
-  import D4 from './pages/D4'
 
-  import Login from './pages/Login'
+
 
   export default {
-
-    components:{
-      Home,About,D3,D4,Login
-    },
     data() {
       return {
         showIndex: 0
       }
     },
+
+    mounted() {
+      
+
+    },
+
     methods: {
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
