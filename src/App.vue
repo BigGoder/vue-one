@@ -1,7 +1,7 @@
 <template>
   <div class='container'>  
     <el-menu
-      default-active="0"
+      default-active="home"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -71,11 +71,17 @@
     padding: 0;
     margin: 0;
   }
-  .el-menu-vertical-demo{
-    width: 200px;
-    height: 100vh;
-  }
   .container{
+
+    .el-menu-vertical-demo{
+      width: 200px;
+      height: 100vh;
+    }
     display: flex;
+
+    .content{
+      flex-grow: 1;
+    }
+
   }
 </style>

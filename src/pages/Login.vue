@@ -32,7 +32,7 @@
         methods: {
             login() {
                 this.$router.push({
-                    path:'/'
+                    path:'/home'
                 })
             }
         },
