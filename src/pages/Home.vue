@@ -8,7 +8,10 @@
                 <el-tab-pane v-for="(item,index) in tabs" :key='index' :label="item" :name="item">{{item}}</el-tab-pane>
             </el-tabs>
             <div class='right'>
-                <span v-for="(name,index) in rightTabs" :key='index'>{{name}}</span>
+                <span @click="login">登录</span>
+                <span>消息</span>
+                <span>购物车</span>
+                <!-- <span v-for="(name,index) in rightTabs" :key='index'>{{name}}</span> -->
             </div>
         </div>
 
@@ -33,6 +36,19 @@
                 </li>
             </ul>
         </div>
+        <div class='swipe-left'>
+            <ul>
+                <li v-for="(item,i) in swipeLeft" :key="i">{{item}}<img src='../assets/right-direct.png'/></li>
+            </ul>
+            
+            <div class='swipe'>
+                <el-carousel :interval="5000" arrow="always">
+                    <el-carousel-item v-for="item in 4" :key="item">
+                        <img :src="require(`../assets/banner${item}.webp`)" alt="">
+                    </el-carousel-item>
+                </el-carousel>
+            </div>
+        </div>
 
     </div>
 </template>
@@ -46,7 +62,8 @@
                 tabs:["小米商城" , "MIUI" , "IoT" , "云服务" , "天星数科" , "有品"  , "企业团购" , "资质证照" , "协议规则" , "下载app" , "智能生活" , "Select Location"],
                 rightTabs:['登录','消息','购物车'],
                 titles:["小米手机","Redmi 红米","电视","笔记本","智能硬件","服务","社区"],//
-                headImages:[1,2,3,4,5]
+                headImages:[1,2,3,4,5],
+                swipeLeft:['手机 电话卡','电视 盒子','手机 电话卡','电视 盒子','手机 电话卡','电视 盒子','手机 电话卡','电视 盒子','手机 电话卡','电视 盒子']
             };
         },
         mounted () {
@@ -69,12 +86,7 @@
                 
             },
             titleLeave(index,e){
-                 let lis = this.$refs.titleHead.querySelectorAll('.titleGood')
-                // for(let i = 0;i<lis.length;i++){
-                //     let li = lis[i]
-                //     //li.style.height = '0'
-                //     li.style.display = 'none'
-                // }
+                let lis = this.$refs.titleHead.querySelectorAll('.titleGood')
                 lis[index].style.display = 'none'  
                //lis[index].style.height = '0'
                 e.target.style.color = '#333'
@@ -90,15 +102,17 @@
 li{
     list-style-type:none
 }
+ul { padding:0px; margin:0px }
 
 .container{
     display: block;
     width: 100%;
+    position: relative;
     .topbar-banner-Wrapper{
         display: block;
         width: 100%;
         height: 120px;
-        position: relative;
+        
         .banner{
             position: absolute;
             background-image: url('../assets/banner.jpg');
@@ -180,9 +194,13 @@ li{
     }
     .head-good-show{
         border-top: #aaa solid 1.5px;
-        height: 230px;
+        
+        position: absolute;
+        z-index: 999;
+        width : 100%;
         background-color: #fff;
         .titleHead{
+            
             .titleGood{
                 float: left;
                 transition: all 10s;
@@ -191,8 +209,7 @@ li{
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    padding-left: 175px;
-                    padding-right: 175px;
+                    padding: 25px 175px;
                     
                     li{
                         border-right: #aaa solid 1.5px;
@@ -200,6 +217,7 @@ li{
                         display: flex;
                         align-items: center;
                         justify-content: center;
+
                         img{
                             display: block;
                             width: 160px;
@@ -214,6 +232,47 @@ li{
         }
 
 
+    }
+    .swipe-left{
+        height:420px;
+        
+
+        ul{
+            padding: 20px 0;
+            background-color: #4A484C;
+            width: 234px;
+            position: absolute;
+            z-index: 1;
+            left:175px;
+            top:260px;
+            li{
+                position: relative;
+                display: block;
+                height:42px;
+                font-size: 14px;
+                line-height: 42px;
+                color: #fff;
+                padding-left: 40px;
+                img{
+                    position: absolute;
+                    top:12px;
+                    right: 20px;
+                }
+            }
+            li:hover{
+                background-color: #ff6700;
+            }
+        }
+        .swipe{
+            position: absolute;
+            left:409px;
+            top:260px;
+            right:175px;
+            height: 460px;
+
+            img{
+            }
+        }
     }
 }
 
@@ -240,6 +299,10 @@ li{
 
 /deep/ .el-tabs{
     height:40px;
+}
+
+/deep/ .el-carousel__container{
+    height:460px;                
 }
 
 /deep/ .el-tab-pane{
