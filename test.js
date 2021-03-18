@@ -77,5 +77,7 @@ function swap(a,l,r){
     a[r] = temp
 }
 let arr = [3,5,4,2,1,6,8,3]
-quickSort2(arr,0,arr.length)
+// quickSort2(arr,0,arr.length)
 console.log(arr);
+
+

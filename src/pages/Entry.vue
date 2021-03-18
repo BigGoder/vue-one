@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
+
     export default {
         data() {
             return {
@@ -15,12 +17,17 @@
 
         async created(){
             try {
-                this.$router.push({path:'/login'})
+                this.$router.push({path:'/home'})
             } catch (error) {
                 console.log('created',error);
             }
             
         },
+
+        computed:{
+            ...mapState(['cookie'])
+        }
+
     }
 </script>
 

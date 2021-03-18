@@ -31,6 +31,9 @@
         },
         methods: {
             login() {
+                //this.$store.state.cookie = this.input1 ? this.input1:"visitor"
+                //this.$store.commit('setCookie',this.input1 ? this.input1:"visitor")
+                window.sessionStorage.setItem('cookie',this.input1 ? this.input1:"visitor")
                 this.$router.push({
                     path:'/home'
                 })

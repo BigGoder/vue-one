@@ -16,7 +16,7 @@
       </el-menu-item>
       <el-menu-item index="about">
         <i class="el-icon-menu"></i>
-        <span slot="title">关于</span>
+        <span slot="title">设置</span>
       </el-menu-item>
       <el-menu-item index="d3">
         <i class="el-icon-document"></i>

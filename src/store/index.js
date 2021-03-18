@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
-      counter: 0
+      counter: 0,
+      cookie:'',
     },
     getters: {
       doubleCounter(state) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
       add(state) {
         state.counter++
         // this.state
+      },
+      setCookie(state,cookie){
+        state.cookie = cookie
       }
     },
     actions: {

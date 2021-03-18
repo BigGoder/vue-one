@@ -8,7 +8,7 @@
                 <el-tab-pane v-for="(item,index) in tabs" :key='index' :label="item" :name="item">{{item}}</el-tab-pane>
             </el-tabs>
             <div class='right'>
-                <span @click="login">登录</span>
+                <span @click="login">{{getCookie() ? getCookie() : '登录'}}</span>
                 <span>消息</span>
                 <span>购物车</span>
                 <!-- <span v-for="(name,index) in rightTabs" :key='index'>{{name}}</span> -->
@@ -17,25 +17,44 @@
 
         <div class = 'frame'>
             <a></a>
-            <div class='title'>
-                <span  v-for="(item,index) in titles" @mouseleave="titleLeave(index,$event)"  @mouseover="titleOver(index,$event)" :key='index' :label="item" :name="item">{{item}}</span>
-            </div>
-            <input type="text">
-        </div>
-        <div class='head-good-show'>
-            <ul ref="titleHead" class="titleHead">
-                <li v-for='(item,index) in titles' :key='index' class="titleGood" style="display:none">
-                    <ul class='title-container'>
+            <div class='title'  ref='labelC'>
+                <span v-for="(item,index) in titles"  @mouseenter="titleOver($event)" :key='index' @mouseleave="titleLeave($event)" :label="item" :name="item" :id="index">{{item}}
+                    <ul class='title-container' style="display:none">
                         <li v-for='(inner,i) in headImages' :key='i'>
                             <div>
-                                <!-- '../assets/head-show'+ index+'.png' -->
                                 <img :src="require('../assets/head-show'+ index+'.png')" alt="">
                             </div>
                         </li>
                     </ul>
-                </li>
-            </ul>
+                </span>
+                <!-- <ul ref="titleHead" class="titleHead">
+                    <li v-for='(item,index) in titles' :key='index' class="titleGood" style="display:none">
+                        <ul class='title-container'>
+                            <li v-for='(inner,i) in headImages' :key='i'>
+                                <div>
+                                    <img :src="require('../assets/head-show'+ index+'.png')" alt="">
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul> -->
+                <!-- <div class='head-good-show'>
+                    <ul ref="titleHead" class="titleHead">
+                        <li v-for='(item,index) in titles' :key='index' class="titleGood" style="display:none">
+                            <ul class='title-container'>
+                                <li v-for='(inner,i) in headImages' :key='i'>
+                                    <div>
+                                        <img :src="require('../assets/head-show'+ index+'.png')" alt="">
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+            <input type="text">
         </div>
+
         <div class='swipe-left'>
             <ul>
                 <li v-for="(item,i) in swipeLeft" :key="i">{{item}}<img src='../assets/right-direct.png'/></li>
@@ -54,6 +73,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     export default {
         name:'home',
         data() {
@@ -67,30 +87,61 @@
             };
         },
         mounted () {
+
         },
+
+        computed:{
+            ...mapState(["cookie"]),
+
+        },
+
         methods: {
             handleClick(tab, event) {
                 console.log(tab,event);
                 
             },
-            titleOver(index,e){
+            getCookie(){
+                return window.sessionStorage.getItem('cookie')
+            },
+            titleOver(e){
                 e.target.style.color = '#ff6700'
-                let lis = this.$refs.titleHead.querySelectorAll('.titleGood')
+                
                 // for(let i = 0;i<lis.length;i++){
                 //     let li = lis[i]
                 //     li.style.display = 'none'
                 // }
-                lis[index].style.display = 'block'    
+                e.target.querySelector('.title-container').style.display = 'flex'    
                 //lis[index].style.height = '0'
                 //lis[index].style.height = '230px'
                 
             },
-            titleLeave(index,e){
-                let lis = this.$refs.titleHead.querySelectorAll('.titleGood')
-                lis[index].style.display = 'none'  
-               //lis[index].style.height = '0'
+            titleLeave(e){
+                //let lis = this.$refs.titleHead.querySelectorAll('.titleGood')
+                // let spans = this.$refs.labelC.querySelectorAll('span')
+                // for(let i = 0;i<spans.length;i++){
+                //     let span = spans[i]
+                //     span.style.color = '#333'
+                // }
+                // for(let i = 0;i<lis.length;i++){
+                //     let li = lis[i]
+                //     li.style.display = 'none'
+                // }
+                // lis[e.target.id - 0].style.display = 'none'  
+                //lis[index].style.height = '0'
+                
                 e.target.style.color = '#333'
+                e.target.querySelector('.title-container').style.display = 'none'
             },
+            login(){
+                if(this.getCookie()){
+                    console.log(this.getCookie());
+                    return
+                } 
+                this.$router.replace('/login')
+            },
+            loginout(){
+                window.sessionStorage.removeItem('cookie')
+            }
 
         }
     }
@@ -147,6 +198,7 @@ ul { padding:0px; margin:0px }
     .frame{
         padding: 0 175px 0 175px;
         display: flex;
+        position: relative;
         justify-content:space-between;
         align-items: center;
         height: 100px;
@@ -187,31 +239,27 @@ ul { padding:0px; margin:0px }
         }
 
         .title{
-            span{
-                margin-left: 20px;
-            }
-        }
-    }
-    .head-good-show{
-        border-top: #aaa solid 1.5px;
-        
-        position: absolute;
-        z-index: 999;
-        width : 100%;
-        background-color: #fff;
-        .titleHead{
             
-            .titleGood{
-                float: left;
-                transition: all 10s;
-                ul{
-                    width: 100%;
+            span{
+                padding-left: 20px;
+                padding-bottom: 40px;
+                .title-container{
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: space-around;
                     align-items: center;
-                    padding: 25px 175px;
-                    
+                    padding: 30px 0;
+                    position: absolute;
+                    border-top: #aaa solid 1.5px;
+                    box-shadow : 0px 1px 1px #aaa;
+                    top:100px;
+                    right: 0;
+                    left:0;
+                    z-index: 100;
+                    background-color: #fff;
                     li{
+                        
+                       
+                        
                         border-right: #aaa solid 1.5px;
                         flex-grow: 1;
                         display: flex;
@@ -230,9 +278,48 @@ ul { padding:0px; margin:0px }
                 }
             }
         }
-
-
     }
+    // .head-good-show{
+    //     border-top: #aaa solid 1.5px;
+        
+    //     position: absolute;
+    //     z-index: 999;
+    //     width : 100%;
+    //     background-color: #fff;
+    //     .titleHead{
+            
+    //         .titleGood{
+    //             float: left;
+    //             transition: all 10s;
+    //             ul{
+    //                 width: 100%;
+    //                 display: flex;
+    //                 justify-content: space-between;
+    //                 align-items: center;
+    //                 padding: 25px 175px;
+                    
+    //                 li{
+    //                     border-right: #aaa solid 1.5px;
+    //                     flex-grow: 1;
+    //                     display: flex;
+    //                     align-items: center;
+    //                     justify-content: center;
+
+    //                     img{
+    //                         display: block;
+    //                         width: 160px;
+    //                         height: 110px;
+    //                     }
+    //                 }
+    //                 li:last-child{
+    //                     border-right: none;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+
+    // }
     .swipe-left{
         height:420px;
         
